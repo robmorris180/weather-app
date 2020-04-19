@@ -48,12 +48,12 @@ export default {
   },
   methods: {
     loadWeather(lat, lon) {
-      API.getAddress(lat, lon).then(result => {
-        this.address = result.name;
-      });
-      API.getForecast(lat, lon).then(result => {
-        this.forecast = result;
-      });
+      Promise.all([API.getAddress(lat, lon), API.getAddress(lat, lon)]).then(
+        ([addressResult, forecastResult]) => {
+          this.address = addressResult.name;
+          this.forecast = forecastResult;
+        }
+      );
     },
     updateLocation() {
       API.getCoordinates(this.location).then(result => {

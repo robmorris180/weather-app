@@ -43,9 +43,6 @@ export default {
       forecast: null
     };
   },
-  mounted() {
-    this.loadWeather("51.48", "-3.18");
-  },
   methods: {
     async loadWeather(lat, lon) {
       const [address, forecast] = await Promise.all([

@@ -47,13 +47,13 @@ export default {
     this.loadWeather("51.48", "-3.18");
   },
   methods: {
-    loadWeather(lat, lon) {
-      Promise.all([API.getAddress(lat, lon), API.getAddress(lat, lon)]).then(
-        ([addressResult, forecastResult]) => {
-          this.address = addressResult.name;
-          this.forecast = forecastResult;
-        }
-      );
+    async loadWeather(lat, lon) {
+      const [address, forecast] = await Promise.all([
+        API.getAddress(lat, lon),
+        API.getForecast(lat, lon)
+      ]);
+      this.address = address.name;
+      this.forecast = forecast;
     },
     updateLocation() {
       API.getCoordinates(this.location).then(result => {

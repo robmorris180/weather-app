@@ -25,12 +25,6 @@ export default {
     LatestWeather,
     SearchWeather
   },
-  data() {
-    return {
-      address: "",
-      forecast: null
-    };
-  },
   methods: {
     loadWeather(lat, lon) {
       let coordinates = {

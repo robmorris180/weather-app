@@ -5,7 +5,11 @@
     </nav>
     <main>
       <search-weather @update:location="updateLocation" />
-      <latest-weather v-if="forecast" :forecast="forecast" :address="address" />
+      <latest-weather
+        v-if="this.$store.getters.forecast"
+        :forecast="this.$store.getters.forecast"
+        :address="this.$store.getters.address"
+      />
     </main>
   </div>
 </template>
@@ -28,13 +32,13 @@ export default {
     };
   },
   methods: {
-    async loadWeather(lat, lon) {
-      const [address, forecast] = await Promise.all([
-        API.getAddress(lat, lon),
-        API.getForecast(lat, lon)
-      ]);
-      this.address = address.name;
-      this.forecast = forecast;
+    loadWeather(lat, lon) {
+      let coordinates = {
+        lat,
+        lon
+      };
+      this.$store.dispatch("getForecast", coordinates);
+      this.$store.dispatch("getAddress", coordinates);
     },
     updateLocation(location) {
       API.getCoordinates(location).then(result => {
